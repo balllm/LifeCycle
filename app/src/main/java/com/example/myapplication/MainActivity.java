@@ -16,7 +16,6 @@ public class MainActivity extends AppCompatActivity {
     TextView textView;
     SharedPreferences settings;
     int newNumber;
-    int number = 90;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,9 +23,8 @@ public class MainActivity extends AppCompatActivity {
         settings = getSharedPreferences("Account", MODE_PRIVATE);
 
         textView = findViewById(R.id.text_view);
+
         newNumber = getIntent().getIntExtra("Number", 0);
-
-
     }
     private void convertToMinutes(int number){
         int min = newNumber / 60;
@@ -36,16 +34,21 @@ public class MainActivity extends AppCompatActivity {
         }
     }
     public void plus(View view) {
-        getNumber();
+//        getNumber();
         handler.postDelayed(runnable = new Runnable() {
             public void run() {
-                SharedPreferences.Editor prefEdit = settings.edit();
-                prefEdit.putInt("Number", newNumber);
-                prefEdit.apply();
+//                SharedPreferences.Editor prefEdit = settings.edit();
+//                prefEdit.putInt("Number", newNumber);
+//                prefEdit.apply();
 
                 handler.postDelayed(runnable, 1000);
                 convertToMinutes(newNumber);
                 newNumber--;
+
+
+                SharedPreferences.Editor prefEdit = settings.edit();
+                prefEdit.putInt("Number", newNumber);
+                prefEdit.apply();
             }
         }, 1000);
     }
@@ -53,10 +56,12 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(MainActivity.this, ConfirmNumber.class);
         // вроде не надо тк надо чтобы number с другого класса в main отправить
 //        intent.putExtra("Number", number);
+        SharedPreferences.Editor prefEdit = settings.edit();
+        prefEdit.remove("Number");
+        prefEdit.apply();
         startActivity(intent);
     }
     public void getNumber(){
-        number = settings.getInt("Number", newNumber);
-        newNumber = number;
+        newNumber = settings.getInt("Number", 0);
     }
 }

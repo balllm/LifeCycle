@@ -2,6 +2,7 @@ package com.example.myapplication;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -16,15 +17,13 @@ public class ConfirmNumber extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.confirm);
 
-        Intent intent = getIntent();
+    }
 
-        text = findViewById(R.id.text);
-        text.setText("Введите текст");
-        // тут можно менять number
+    public void returnToMainActivity(View view) {
         newNumber = 210;
 
-        Intent intent2 = new Intent(ConfirmNumber.this, MainActivity.class);
-        intent2.putExtra("Number", newNumber);
-        startActivity(intent2);
+        Intent intent = new Intent(ConfirmNumber.this, MainActivity.class);
+        intent.putExtra("Number", newNumber);
+        startActivity(intent);
     }
 }
